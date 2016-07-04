@@ -1,6 +1,9 @@
-package com.example.customlistview;
+package com.wangban.customlistview;
 
 import java.util.ArrayList;
+
+import com.example.customlistview.R;
+import com.wangban.customlistview.CustomListView.OnRefreshListener;
 
 import android.os.Bundle;
 import android.app.Activity;
@@ -30,4 +33,26 @@ public class MainActivity extends Activity {
 		return true;
 	}
 
+	class MyOnRefreshListener implements OnRefreshListener {
+
+		@Override
+		public void onRefresh(CustomListView customListView) {
+			new Thread() {
+				@Override
+				public void run() {
+					try {
+						this.sleep(2000);
+						String data = "ÁªÍøÊý¾Ý";
+						list.add(data);
+						myAdatper.notifyDataSetChanged();
+					} catch (Exception e) {
+						e.printStackTrace();
+					}
+					super.run();
+				}
+			}.start();
+
+		}
+
+	}
 }

@@ -1,6 +1,8 @@
-package com.example.customlistview;
+package com.wangban.customlistview;
 
 import javax.crypto.spec.IvParameterSpec;
+
+import com.example.customlistview.R;
 
 import android.content.Context;
 import android.util.AttributeSet;
@@ -25,7 +27,11 @@ public class CustomListView extends ListView {
 	ProgressBar progressBar;
 	int downY;
 	private ImageView ivArrow;
-
+	/**
+	 * 下拉刷新框架
+	 * @param context
+	 * @param attrs
+	 */
 	public CustomListView(Context context, AttributeSet attrs) {
 		super(context, attrs);
 		currentState = STATE_DONE;
@@ -75,6 +81,11 @@ public class CustomListView extends ListView {
 					tvState.setText("刷新中");
 					ivArrow.setVisibility(View.GONE);
 					progressBar.setVisibility(View.VISIBLE);
+					// 调用接口指向的实现类对象
+					if (onRefreshListener != null) {
+						// this,框架传数据给需要用的人
+						onRefreshListener.onRefresh(this);
+					}
 					currentState = STATE_DONE;
 				}
 				break;
@@ -88,6 +99,21 @@ public class CustomListView extends ListView {
 		}
 
 		return super.onTouchEvent(ev);
+	}
+
+	// 2.3 让接口实现类
+	public void setOnRefreshListener(OnRefreshListener onRefreshListener) {
+
+	}
+
+	// 2.2声明
+	OnRefreshListener onRefreshListener;
+
+	// 2.1定义接口
+	interface OnRefreshListener {
+		// 抽象方法，用框架的实现
+		// 框架调，框架传数据给用框架的人
+		public void onRefresh(CustomListView customListView);
 	}
 
 }
