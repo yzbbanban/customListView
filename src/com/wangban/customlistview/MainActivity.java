@@ -8,8 +8,9 @@ import com.wangban.customlistview.CustomListView.OnRefreshListener;
 import android.os.Bundle;
 import android.app.Activity;
 import android.view.Menu;
+import android.view.View.OnClickListener;
 
-public class MainActivity extends Activity {
+public class MainActivity extends Activity  {
 	ArrayList<String> list = new ArrayList();
 	MyAdatper myAdatper;
 	// 是一个下拉刷新框架
@@ -47,7 +48,15 @@ public class MainActivity extends Activity {
 						this.sleep(2000);
 						String data = "联网取到的数据";
 						list.add(data);
-						myAdatper.notifyDataSetChanged();
+						runOnUiThread(new Runnable() {
+							
+							@Override
+							public void run() {
+								// TODO Auto-generated method stub
+								myAdatper.notifyDataSetChanged();
+								
+							}
+						});
 					} catch (Exception e) {
 						// TODO: handle exception
 					}
@@ -56,4 +65,5 @@ public class MainActivity extends Activity {
 		}
 
 	}
+	
 }

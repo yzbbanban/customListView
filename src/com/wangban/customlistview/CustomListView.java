@@ -63,7 +63,8 @@ public class CustomListView extends ListView {
 				if (currentState == STATE_PULL) {
 					int moveY = (int) ev.getY();
 					int top = moveY - downY - height;
-					//Log.i("testtop", "downY=" + downY + "," + moveY + "," + top);
+					// Log.i("testtop", "downY=" + downY + "," + moveY + "," +
+					// top);
 					view.setPadding(0, top, 0, 0);
 					// 把状态改成release
 					if (top > height) {
@@ -112,4 +113,12 @@ public class CustomListView extends ListView {
 		// 框架调，框架传数据给用框架的人
 		public void onRefresh(CustomListView customListView);
 	}
+
+	public void refreshComplete() {
+		tvState.setText("下拉刷新");
+		progressBar.setVisibility(View.GONE);
+		ivArrow.setVisibility(View.VISIBLE);
+		currentState = STATE_DONE;
+	}
+
 }
