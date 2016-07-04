@@ -119,6 +119,7 @@ public class CustomListView extends ListView {
 		progressBar.setVisibility(View.GONE);
 		ivArrow.setVisibility(View.VISIBLE);
 		currentState = STATE_DONE;
+		view.setPadding(0, -height, 0, 0);
 	}
 
 }

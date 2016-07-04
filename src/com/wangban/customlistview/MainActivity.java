@@ -10,7 +10,7 @@ import android.app.Activity;
 import android.view.Menu;
 import android.view.View.OnClickListener;
 
-public class MainActivity extends Activity  {
+public class MainActivity extends Activity {
 	ArrayList<String> list = new ArrayList();
 	MyAdatper myAdatper;
 	// 是一个下拉刷新框架
@@ -41,7 +41,7 @@ public class MainActivity extends Activity  {
 	class MyOnRefreshListener implements OnRefreshListener {
 
 		@Override
-		public void onRefresh(CustomListView customListView) {
+		public void onRefresh(final CustomListView customListView) {
 			new Thread() {
 				public void run() {
 					try {
@@ -49,21 +49,20 @@ public class MainActivity extends Activity  {
 						String data = "联网取到的数据";
 						list.add(data);
 						runOnUiThread(new Runnable() {
-							
+
 							@Override
 							public void run() {
-								// TODO Auto-generated method stub
 								myAdatper.notifyDataSetChanged();
-								
+								customListView.refreshComplete();
 							}
 						});
 					} catch (Exception e) {
-						// TODO: handle exception
+						e.printStackTrace();
 					}
 				};
 			}.start();
 		}
 
 	}
-	
+
 }
