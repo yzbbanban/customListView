@@ -12,6 +12,7 @@ import android.view.Menu;
 public class MainActivity extends Activity {
 	ArrayList<String> list = new ArrayList();
 	MyAdatper myAdatper;
+	// 是一个下拉刷新框架
 	CustomListView customListView;
 
 	@Override
@@ -24,6 +25,8 @@ public class MainActivity extends Activity {
 		myAdatper = new MyAdatper(this, list);
 		customListView = (CustomListView) findViewById(R.id.coustomListView);
 		customListView.setAdapter(myAdatper);
+		MyOnRefreshListener myOnRefreshListener = new MyOnRefreshListener();
+		customListView.setOnRefreshListener(myOnRefreshListener);
 	}
 
 	@Override
@@ -33,25 +36,23 @@ public class MainActivity extends Activity {
 		return true;
 	}
 
+	// 2.5 写实现类
 	class MyOnRefreshListener implements OnRefreshListener {
 
 		@Override
 		public void onRefresh(CustomListView customListView) {
 			new Thread() {
-				@Override
 				public void run() {
 					try {
 						this.sleep(2000);
-						String data = "联网数据";
+						String data = "联网取到的数据";
 						list.add(data);
 						myAdatper.notifyDataSetChanged();
 					} catch (Exception e) {
-						e.printStackTrace();
+						// TODO: handle exception
 					}
-					super.run();
-				}
+				};
 			}.start();
-
 		}
 
 	}
